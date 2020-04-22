@@ -6,9 +6,9 @@ const ItemCell = ({ itemName, secretColor, spyMaster }) => {
   const [display, setDisplay] = useState(false)
 
   const divStyle = {
-    backgroundColor: (display || spyMaster) ? secretColor : 'gray',
+    backgroundColor: (display || spyMaster) ? secretColor : '#d1d1d1',
     width: '150px',
-    height: '150px'
+    height: '120px'
   }
 
   return (

@@ -3,8 +3,7 @@ html {
 	padding: 0;
 	border: 0;
 	font-size: 100%;
-	font: inherit;
-	vertical-align: baseline;
+  vertical-align: baseline;
 }
 
 .grid {
@@ -16,10 +15,11 @@ html {
 
 p{
   margin: 0 auto;
-	padding: 68px 0 0 0;
+	padding: 53px 0 0 0;
 	border: 0;
-	font-size: 100%;
-  font: inherit;
+	font-size: 18px;
+  font-family: 'Avenir', Arial, Helvetica, sans-serif;
+  font-weight: bold;
   display: inline-block;
   vertical-align: middle;
 }
@@ -27,4 +27,12 @@ p{
 .item {
   margin: 5px 5px 5px 5px;
   display: inline-block;
+}
+
+.App{
+  text-align: center;
+}
+
+.switch {
+  width: 50px;
 }
