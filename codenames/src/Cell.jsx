@@ -7,12 +7,12 @@ const ItemCell = ({ itemName, secretColor, spyMaster }) => {
 
   const divStyle = {
     backgroundColor: (display || spyMaster) ? secretColor : 'gray',
-    width: '200px',
-    
+    width: '150px',
+    height: '150px'
   }
 
   return (
-    <div
+    <div className="item"
       style={divStyle}
       onClick={() => setDisplay(true)}>
       <p>{itemName}</p>
