@@ -27,28 +27,30 @@ const shuffle = (arr) => {
   return arr;
 }
 
-const Grid = (props) => {
-  const items = ['apple', 'plane', 'undertaker', 'orange', 'bark',
-    'mango', 'dog', 'piano', 'unicorn', 'fly',
-    'strike', 'bug', 'part', 'ship', 'australia',
-    'war', 'mount', 'torch', 'march', 'pound',
-    'diamond', 'bold', 'crash', 'stock', 'buck']
+const items = ['apple', 'plane', 'undertaker', 'orange', 'bark',
+  'mango', 'dog', 'piano', 'unicorn', 'fly',
+  'strike', 'bug', 'part', 'ship', 'australia',
+  'war', 'mount', 'torch', 'march', 'pound',
+  'diamond', 'bold', 'crash', 'stock', 'buck']
 
-  const redCount = 9
-  const blueCount = 8
-  const grayCount = 7
+const redCount = 9
+const blueCount = 8
+const grayCount = 7
 
-  let redArr = duplicateArr(redCount, 'red')
-  let blueArr = duplicateArr(blueCount, 'blue')
-  let grayArr = duplicateArr(grayCount, '#ebf5c9')
-  let deathArr = ['#858585']
-  let colorArr = redArr.concat(blueArr, grayArr, deathArr)
-  shuffle(colorArr)
-  console.log(colorArr)
+let redArr = duplicateArr(redCount, 'red')
+let blueArr = duplicateArr(blueCount, 'blue')
+let grayArr = duplicateArr(grayCount, '#ebf5c9')
+let deathArr = ['#858585']
+let colorArr = redArr.concat(blueArr, grayArr, deathArr)
+
+shuffle(colorArr)
+shuffle(items)
+
+const Grid = ({ spyMaster }) => {
 
   return (
     <div className="grid">
-      {items.map((itemName, index) => <ItemCell itemName={itemName} secretColor={colorArr[index]} key={itemName} />)}
+      {items.map((itemName, index) => <ItemCell spyMaster={spyMaster} itemName={itemName} secretColor={colorArr[index]} key={itemName} />)}
     </div>
   )
 }
