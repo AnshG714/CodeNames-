@@ -1,24 +1,19 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import ItemCell from './Cell'
 
 function App() {
+
+  const items = ['apple', 'plane', 'undertaker', 'orange', 'bark',
+    'mango', 'dog', 'piano', 'unicorn', 'fly',
+    'strike', 'bug', 'part', 'ship', 'australia',
+    'war', 'mount', 'torch', 'march', 'pound',
+    'diamond', 'bold', 'crash', 'stock', 'buck']
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {items.map((itemName) => <ItemCell itemName={itemName} secretColor={'blue'} key={itemName} />)}
     </div>
   );
 }
