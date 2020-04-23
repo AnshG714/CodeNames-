@@ -88,13 +88,25 @@ const Grid = ({ spyMaster }) => {
     }
   }
 
+  const passTurn = () =>{
+    if (!win){
+    if (whoseTurn === 'red'){
+      setTurn('blue')
+    }else{
+      setTurn('red')
+    }
+  }
+  }
+
   return (
     <div>
       <p>{win 
       ? <span style = {{ color: whoseTurn}}>The {whoseTurn} team wins </span>
       : <span style = {{ color: whoseTurn}}>It's {whoseTurn} team's turn </span>} <br></br>
       
-      <span style={{ color: 'red' }}>{redRemaining}</span> - <span style={{ color: 'blue' }}>{blueRemaining}</span></p>
+      <span style={{ color: 'red' }}>{redRemaining}</span> - <span style={{ color: 'blue' }}>{blueRemaining}</span>
+      <br></br>
+      <button className = "passButton" onClick = {passTurn}>Pass Turn</button></p> 
       <div className="grid">
         {items.map((itemName, index) =>
           <ItemCell spyMaster={spyMaster}
