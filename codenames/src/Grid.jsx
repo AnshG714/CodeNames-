@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import ItemCell from './Cell'
 
 const duplicateArr = (count, element) => {
@@ -47,10 +47,28 @@ shuffle(colorArr)
 shuffle(items)
 
 const Grid = ({ spyMaster }) => {
+  const [redRemaining, setRedRemaining] = useState(redCount)
+  const [blueRemaining, setBlueRemaining] = useState(blueCount)
+
+  const changeHandler = (color) => {
+    if (color == 'red') {
+      setRedRemaining(redRemaining - 1)
+    } else if (color == 'blue') {
+      setBlueRemaining(blueRemaining - 1)
+    }
+  }
 
   return (
-    <div className="grid">
-      {items.map((itemName, index) => <ItemCell spyMaster={spyMaster} itemName={itemName} secretColor={colorArr[index]} key={itemName} />)}
+    <div>
+      <p><span style={{ color: 'red' }}>{redRemaining}</span> - <span style={{ color: 'blue' }}>{blueRemaining}</span></p>
+      <div className="grid">
+        {items.map((itemName, index) =>
+          <ItemCell spyMaster={spyMaster}
+            itemName={itemName}
+            secretColor={colorArr[index]}
+            key={itemName}
+            callback={changeHandler} />)}
+      </div>
     </div>
   )
 }

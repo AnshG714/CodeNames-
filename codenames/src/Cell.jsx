@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import './App.css'
 
-const ItemCell = ({ itemName, secretColor, spyMaster }) => {
+const ItemCell = ({ itemName, secretColor, spyMaster, callback }) => {
 
   const [display, setDisplay] = useState(false)
 
@@ -14,7 +14,10 @@ const ItemCell = ({ itemName, secretColor, spyMaster }) => {
   return (
     <div className="item"
       style={divStyle}
-      onClick={() => setDisplay(true)}>
+      onClick={() => {
+        if (!display) callback(secretColor)
+        setDisplay(true)
+      }}>
       <p>{itemName}</p>
     </div>
   )
