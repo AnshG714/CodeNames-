@@ -49,18 +49,32 @@ shuffle(items)
 const Grid = ({ spyMaster }) => {
   const [redRemaining, setRedRemaining] = useState(redCount)
   const [blueRemaining, setBlueRemaining] = useState(blueCount)
+  const [redsTurn, setRedsTurn] = useState(true)
 
   const changeHandler = (color) => {
-    if (color == 'red') {
+    if (color === 'red') {
       setRedRemaining(redRemaining - 1)
-    } else if (color == 'blue') {
+    } else if (color === 'blue') {
       setBlueRemaining(blueRemaining - 1)
+    }
+
+    if ((color === 'blue' && redsTurn) || (color === 'red' && !redsTurn)) {
+      setRedsTurn(!redsTurn)
     }
   }
 
   return (
     <div>
-      <p><span style={{ color: 'red' }}>{redRemaining}</span> - <span style={{ color: 'blue' }}>{blueRemaining}</span></p>
+      <div className='turnInfo'>
+        <p style={{ float: 'left', 'margin-left': '320px' }}>
+          <span style={{ color: redsTurn ? 'red' : 'blue' }}>
+            It is {redsTurn ? 'red\'s' : 'blue\'s'} turn
+          </span>
+        </p>
+        <p style={{ 'margin-left': '280px' }}>
+          <span style={{ color: 'red' }}>{redRemaining}</span> - <span style={{ color: 'blue' }}>{blueRemaining}</span>
+        </p>
+      </div>
       <div className="grid">
         {items.map((itemName, index) =>
           <ItemCell spyMaster={spyMaster}
@@ -69,7 +83,7 @@ const Grid = ({ spyMaster }) => {
             key={itemName}
             callback={changeHandler} />)}
       </div>
-    </div>
+    </div >
   )
 }
 

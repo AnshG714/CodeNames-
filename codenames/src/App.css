@@ -36,3 +36,7 @@ p{
 .switch {
   width: 50px;
 }
+
+.turnInfo {
+  display: initial;
+}
