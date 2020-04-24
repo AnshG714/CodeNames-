@@ -39,7 +39,7 @@ const grayCount = 7
 
 let redArr = duplicateArr(redCount, 'red')
 let blueArr = duplicateArr(blueCount, 'blue')
-let grayArr = duplicateArr(grayCount, '#ebf5c9')
+let grayArr = duplicateArr(grayCount, '#e6d5a8')
 let deathArr = ['#858585']
 let colorArr = redArr.concat(blueArr, grayArr, deathArr)
 
@@ -49,35 +49,59 @@ shuffle(items)
 const Grid = ({ spyMaster }) => {
   const [redRemaining, setRedRemaining] = useState(redCount)
   const [blueRemaining, setBlueRemaining] = useState(blueCount)
-  const [redsTurn, setRedsTurn] = useState(true)
+  const [whoseTurn, setTurn] = useState('red')
+  const [win, gameOver] = useState(false)
 
   const changeHandler = (color) => {
     if (color === 'red') {
       setRedRemaining(redRemaining - 1)
+      if ('blue' === whoseTurn) {
+        setTurn('red')
+      }
+      if (redRemaining - 1 === 0) {
+        setTurn('red')
+        gameOver(true)
+      }
     } else if (color === 'blue') {
       setBlueRemaining(blueRemaining - 1)
+      if ('red' === whoseTurn) {
+        setTurn('blue')
+      }
+      if (blueRemaining - 1 === 0) {
+        setTurn('blue')
+        gameOver(true)
+      }
+    } else if (color === '#e6d5a8') {
+      whoseTurn === 'red' ? setTurn('blue') : setTurn('red')
+    } else {
+      gameOver(true)
+      whoseTurn === 'red' ? setTurn('blue') : setTurn('red')
     }
+  }
 
-    if ((color === 'blue' && redsTurn) || (color === 'red' && !redsTurn)) {
-      setRedsTurn(!redsTurn)
+  const passTurn = () => {
+    if (!win) {
+      if (whoseTurn === 'red') {
+        setTurn('blue')
+      } else {
+        setTurn('red')
+      }
     }
   }
 
   return (
     <div>
-      <div className='turnInfo'>
-        <p style={{ float: 'left', 'margin-left': '320px' }}>
-          <span style={{ color: redsTurn ? 'red' : 'blue' }}>
-            It is {redsTurn ? 'red\'s' : 'blue\'s'} turn
-          </span>
-        </p>
-        <p style={{ 'margin-left': '280px' }}>
-          <span style={{ color: 'red' }}>{redRemaining}</span> - <span style={{ color: 'blue' }}>{blueRemaining}</span>
-        </p>
-      </div>
+      <p>{win
+        ? <span style={{ color: whoseTurn }}>The {whoseTurn} team wins </span>
+        : <span style={{ color: whoseTurn }}>It's {whoseTurn} team's turn </span>} <br></br>
+
+        <span style={{ color: 'red' }}>{redRemaining}</span> - <span style={{ color: 'blue' }}>{blueRemaining}</span>
+        <br></br>
+        <button className="passButton" onClick={passTurn}>Pass Turn</button></p>
       <div className="grid">
         {items.map((itemName, index) =>
           <ItemCell spyMaster={spyMaster}
+            clickable={!win}
             itemName={itemName}
             secretColor={colorArr[index]}
             key={itemName}

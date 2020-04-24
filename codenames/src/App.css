@@ -29,6 +29,11 @@ p{
   display: inline-block;
 }
 
+.passButton{
+  border-radius: 4px;
+  font-size: 14px;
+}
+
 .App{
   text-align: center;
 }
