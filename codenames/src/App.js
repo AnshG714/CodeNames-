@@ -3,6 +3,7 @@ import './App.css';
 import 'antd/dist/antd.css';
 import Grid from './Grid'
 import { Switch } from 'antd'
+import * as firebaseui from 'firebaseui'
 
 
 function App() {
