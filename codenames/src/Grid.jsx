@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+
 import ItemCell from './Cell'
 
 const duplicateArr = (count, element) => {
