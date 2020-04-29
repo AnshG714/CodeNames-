@@ -101,7 +101,7 @@ const Grid = ({ spyMaster }) => {
       <div className="grid">
         {items.map((itemName, index) =>
           <ItemCell spyMaster={spyMaster}
-            clickable={!win}
+            clickable={!win && !spyMaster}
             itemName={itemName}
             secretColor={colorArr[index]}
             key={itemName}
