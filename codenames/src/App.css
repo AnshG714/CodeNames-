@@ -17,6 +17,10 @@ html {
   	padding: 53px 0 0 0;
 }
 
+.hello{
+  margin-bottom: 0px;
+}
+
 p{
   margin: 0 auto;
 	border: 0;
@@ -48,4 +52,9 @@ p{
 
 .turnInfo {
   display: initial;
+}
+
+.signout{
+  margin-top: 10px;
+  border-radius: 4px;
 }
