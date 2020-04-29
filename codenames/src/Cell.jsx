@@ -15,12 +15,12 @@ const ItemCell = ({ itemName, secretColor, spyMaster, callback, clickable }) => 
     <div className="item"
       style={divStyle}
       onClick={() => {
-        if (!display && clickable){ 
+        if (!display && clickable){
         callback(secretColor)
         setDisplay(true)
         }
       }}>
-      <p>{itemName}</p>
+      <p class="cell">{itemName}</p>
     </div>
   )
 }
