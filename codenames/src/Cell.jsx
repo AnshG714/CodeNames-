@@ -7,6 +7,8 @@ const ItemCell = ({ itemName, secretColor, spyMaster, callback, clickable }) => 
 
   const divStyle = {
     backgroundColor: (display || spyMaster) ? secretColor : '#d1d1d1',
+    border: display ? '2px inset black' : 'none',
+    color: display ? 'white' : 'black',
     width: '150px',
     height: '120px'
   }
@@ -15,12 +17,12 @@ const ItemCell = ({ itemName, secretColor, spyMaster, callback, clickable }) => 
     <div className="item"
       style={divStyle}
       onClick={() => {
-        if (!display && clickable){ 
+        if (!display && clickable){
         callback(secretColor)
         setDisplay(true)
         }
       }}>
-      <p>{itemName}</p>
+      <p class="cell">{itemName}</p>
     </div>
   )
 }

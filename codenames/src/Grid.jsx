@@ -39,7 +39,7 @@ const blueCount = 8
 const grayCount = 7
 
 let redArr = duplicateArr(redCount, 'red')
-let blueArr = duplicateArr(blueCount, 'blue')
+let blueArr = duplicateArr(blueCount, 'lightblue')
 let grayArr = duplicateArr(grayCount, '#e6d5a8')
 let deathArr = ['#858585']
 let colorArr = redArr.concat(blueArr, grayArr, deathArr)
@@ -63,7 +63,7 @@ const Grid = ({ spyMaster }) => {
         setTurn('red')
         gameOver(true)
       }
-    } else if (color === 'blue') {
+    } else if (color === 'lightblue') {
       setBlueRemaining(blueRemaining - 1)
       if ('red' === whoseTurn) {
         setTurn('blue')
@@ -102,7 +102,7 @@ const Grid = ({ spyMaster }) => {
       <div className="grid">
         {items.map((itemName, index) =>
           <ItemCell spyMaster={spyMaster}
-            clickable={!win}
+            clickable={!win && !spyMaster}
             itemName={itemName}
             secretColor={colorArr[index]}
             key={itemName}

@@ -13,9 +13,16 @@ html {
   width: 800px;
 }
 
+.cell{
+  	padding: 53px 0 0 0;
+}
+
+.hello{
+  margin-bottom: 0px;
+}
+
 p{
   margin: 0 auto;
-	padding: 53px 0 0 0;
 	border: 0;
 	font-size: 18px;
   font-family: 'Avenir', Arial, Helvetica, sans-serif;
@@ -36,6 +43,7 @@ p{
 
 .App{
   text-align: center;
+  margin-bottom: 10px;
 }
 
 .switch {
@@ -44,4 +52,9 @@ p{
 
 .turnInfo {
   display: initial;
+}
+
+.signout{
+  margin-top: 10px;
+  border-radius: 4px;
 }
