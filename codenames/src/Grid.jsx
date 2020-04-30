@@ -47,7 +47,7 @@ let colorArr = redArr.concat(blueArr, grayArr, deathArr)
 shuffle(colorArr)
 shuffle(items)
 
-const Grid = ({ spyMaster }) => {
+const Grid = ({ spyMaster, callback }) => {
   const [redRemaining, setRedRemaining] = useState(redCount)
   const [blueRemaining, setBlueRemaining] = useState(blueCount)
   const [whoseTurn, setTurn] = useState('red')
@@ -62,6 +62,7 @@ const Grid = ({ spyMaster }) => {
       if (redRemaining - 1 === 0) {
         setTurn('red')
         gameOver(true)
+        callback('red')
       }
     } else if (color === 'lightblue') {
       setBlueRemaining(blueRemaining - 1)
@@ -71,12 +72,14 @@ const Grid = ({ spyMaster }) => {
       if (blueRemaining - 1 === 0) {
         setTurn('blue')
         gameOver(true)
+        callback('blue')
       }
     } else if (color === '#e6d5a8') {
       whoseTurn === 'red' ? setTurn('blue') : setTurn('red')
     } else {
-      gameOver(true)
       whoseTurn === 'red' ? setTurn('blue') : setTurn('red')
+      gameOver(true)
+      callback(whoseTurn === 'red' ? 'blue' : 'red')
     }
   }
 
