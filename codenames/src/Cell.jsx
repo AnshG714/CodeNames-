@@ -21,7 +21,7 @@ const ItemCell = ({ itemName, secretColor, spyMaster, callback, clickable }) => 
           setDisplay(true)
         }
       }}>
-      <p class="cell">{itemName}</p>
+      <p className="cell">{itemName}</p>
     </div>
   )
 }

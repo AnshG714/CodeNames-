@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { items } from './consts'
 
 import ItemCell from './Cell'
 
@@ -27,12 +28,6 @@ const shuffle = (arr) => {
   }
   return arr;
 }
-
-const items = ['apple', 'plane', 'undertaker', 'orange', 'bark',
-  'mango', 'dog', 'piano', 'unicorn', 'fly',
-  'strike', 'bug', 'part', 'ship', 'australia',
-  'war', 'mount', 'torch', 'march', 'pound',
-  'diamond', 'bold', 'crash', 'stock', 'buck']
 
 const redCount = 9
 const blueCount = 8

@@ -5,3 +5,9 @@ export const blueConf =
 export const redConf =
   ['#ff0000', '#a81313', '#d64545', '#e36212', '#e3af12', '#e312d2',
     '#bf2c96', '#f76383', '#c91818']
+
+export const items = ['apple', 'plane', 'undertaker', 'orange', 'bark',
+  'mango', 'dog', 'piano', 'unicorn', 'fly',
+  'strike', 'bug', 'part', 'ship', 'australia',
+  'war', 'mount', 'torch', 'march', 'pound',
+  'diamond', 'bold', 'crash', 'stock', 'buck']
