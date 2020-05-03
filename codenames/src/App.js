@@ -45,12 +45,15 @@ function App(props) {
             {
               winningColor && <Confetti recycle={false} colors={winningColor === 'red' ? redConf : blueConf} />
             }
+
             <Grid spyMaster={spyState} callback={changeHandler} />
+
             <Switch class="switch"
               checkedChildren={<img src='https://cdn1.iconfinder.com/data/icons/crimes-and-justice/100/14-512.png' height='15px' alt="spymaster" />}
               unCheckedChildren={<img src="https://cdn2.iconfinder.com/data/icons/player-rounded-set/154/user-login-player-function-name-avatar-512.png" height='15px' alt="player" />}
               defaultChecked={false}
               onClick={() => setSpyState(!spyState)}
+
             /> <br></br><button class="signout" onClick={signOut}>Sign out</button> </div>)
           : <div> <p>Please sign in.</p> <br></br><button onClick={signInWithGoogle}> Sign in with Google</button> </div>
       }
