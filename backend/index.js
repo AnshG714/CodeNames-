@@ -1,34 +1,23 @@
-const admin = require('firebase-admin');
-const serviceAccount = require('./service-account.json');
+const Database = require('./firebase-config')
 const express = require('express');
 const bodyParser = require('body-parser');
-
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: 'https://codenames-plus.firebaseio.com',
-});
-
-const db = admin.firestore();
-
+const functions = require('./firebase-functions')
 const app = express();
 const port = 8080;
+
 app.use(bodyParser.json());
 
-const itemsCollection = db.collection('items'); 
-
-app.get('/getItems', async (req,res) =>{
-  const items = await itemsCollection.get();
-  const cells = [];
-  for (let doc of items.docs){
-    let cell = doc.data();
-    cells.push(cell);
-  }
-  res.send(cells);
+app.get('/getItems', async (req, res) => {
+  const result = await functions.getItems(req.query.board_id)
+  res.send(result)
 });
 
+/** 
+ * Items is structured like this: {name: "cat", checked: false}, {name: "dog", checked: true}
+*/
 app.post('/addBoard', async (req, res) => {
-  const items = req.body;
-  const myDoc = await itemsCollection.add(items);
+  const { board_id, items } = req.body;
+  const myDoc = await itemsCollection.doc(board_id).set(items);
   res.send(myDoc.id);
 });
 
