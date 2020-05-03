@@ -1,9 +1,9 @@
-const Database = require('./firebase-config')
 const express = require('express');
 const bodyParser = require('body-parser');
 const functions = require('./firebase-functions')
+
 const app = express();
-const port = 8080;
+const port = 3000;
 
 app.use(bodyParser.json());
 
@@ -17,9 +17,8 @@ app.get('/getItems', async (req, res) => {
 */
 app.post('/addBoard', async (req, res) => {
   const { board_id, items } = req.body;
-  const myDoc = await itemsCollection.doc(board_id).set(items);
-  res.send(myDoc.id);
+  const id = await functions.addBoard(board_id, items)
+  res.send(id);
 });
-
 
 app.listen(port, () => console.log(`App listening on port ${port}!`));

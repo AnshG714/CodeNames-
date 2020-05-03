@@ -6,4 +6,6 @@ admin.initializeApp({
   databaseURL: 'https://codenames-plus.firebaseio.com',
 });
 
-export const db = admin.firestore();
+const db = admin.firestore();
+
+module.exports = db

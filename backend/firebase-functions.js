@@ -1,14 +1,27 @@
-const Database = require('./firebase-config')
+const db = require('./firebase-config')
 
-const db = Database.db
+const itemsCollection = db.collection('game-rooms');
 
-const itemsCollection = db.collection('items');
-
-export const getItems = async (boardID) => {
+const getItems = async (boardID) => {
   const items = await itemsCollection.doc(boardID).get();
   return items.docs.map(doc => doc.data())
 }
 
-export const streamBoardData = async (boardID, observer) => {
+const addBoard = async (board_id, items) => {
+  try {
+    await itemsCollection.doc(board_id).set(items);
+    return board_id
+  } catch (err) {
+    throw new Error(err.message)
+  }
+}
+
+const streamBoardData = async (boardID, observer) => {
   return itemsCollection.doc(boardID).onSnapshot(observer)
+}
+
+module.exports = {
+  getItems,
+  addBoard,
+  streamBoardData
 }
