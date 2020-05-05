@@ -1,11 +1,13 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const functions = require('./firebase-functions')
+const cors = require('cors');
 
 const app = express();
-const port = 3000;
+const port = 8080;
 
 app.use(bodyParser.json());
+app.use(cors())
 
 app.get('/getItems', async (req, res) => {
   const result = await functions.getItems(req.query.board_id)

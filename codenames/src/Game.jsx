@@ -30,7 +30,7 @@ export default ({ signOut, user, id }) => {
         defaultChecked={false}
         onClick={() => setSpyState(!spyState)}
 
-      /> <br></br><button class="signout" onClick={signOut}>Sign out</button> </div>
+      /> <br></br><button className="signout" onClick={signOut}>Sign out</button> </div>
   )
 
 }

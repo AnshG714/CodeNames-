@@ -1,3 +1,12 @@
+/**
+ * "items": {
+ *  "dog": {
+ *    checked: false,
+ *    color: blue
+ *  }
+ * }
+ */
+
 import React, { useState } from 'react'
 import { items } from './consts'
 

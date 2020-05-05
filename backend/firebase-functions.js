@@ -4,7 +4,7 @@ const itemsCollection = db.collection('game-rooms');
 
 const getItems = async (boardID) => {
   const items = await itemsCollection.doc(boardID).get();
-  return items.docs.map(doc => doc.data())
+  return items
 }
 
 const addBoard = async (board_id, items) => {
