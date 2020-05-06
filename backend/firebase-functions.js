@@ -7,24 +7,31 @@ const getItems = async (boardID) => {
   return items.data()
 }
 
-const addBoard = async (board_id, items) => {
+const addBoard = async (board_id, items, gameInfo) => {
   try {
-    await itemsCollection.doc(board_id).set(items);
+    await itemsCollection.doc(board_id).set({ items: items, gameInfo: gameInfo });
     return board_id
   } catch (err) {
     throw new Error(err.message)
   }
 }
 
-const updateBoard = async (board_id, itemName, color, index) => {
+const updateBoard = async (board_id, itemName, color, index, gameInfo) => {
   try {
-    const data = {}
-    data[itemName] = {
+    const data = {
       checked: true,
       color: color,
       index: index
     }
-    await itemsCollection.doc(board_id).update(data)
+
+    const key = "items." + itemName
+
+    const wrappedData = {}
+    wrappedData[key] = data
+    if (itemName) {
+      await itemsCollection.doc(board_id).update(wrappedData)
+    }
+    await itemsCollection.doc(board_id).update({ "gameInfo": gameInfo })
   } catch (err) {
     throw new Error(err.message)
   }

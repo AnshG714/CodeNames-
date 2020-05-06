@@ -18,14 +18,14 @@ app.get('/getItems', async (req, res) => {
  * Items is structured like this: {name: "cat", checked: false}, {name: "dog", checked: true}
 */
 app.post('/addBoard', async (req, res) => {
-  const { board_id, items } = req.body;
-  const id = await functions.addBoard(board_id, items)
+  const { board_id, items, gameInfo } = req.body;
+  const id = await functions.addBoard(board_id, items, gameInfo)
   res.send(id);
 });
 
 app.post('/updateBoard', async (req, res) => {
-  const { board_id, itemName, color, index } = req.body;
-  await functions.updateBoard(board_id, itemName, color, index)
+  const { board_id, itemName, color, index, gameInfo } = req.body;
+  await functions.updateBoard(board_id, itemName, color, index, gameInfo)
   res.send({ success: true })
 })
 

@@ -63,12 +63,19 @@ export default () => {
   const [roomText, setRoomText] = useState("")
 
   const addToFirebase = async (roomID) => {
+
+    const init_game_info = {
+      turn: "red",
+      red: 9,
+      blue: 8,
+      win: false
+    }
     await fetch('http://localhost:8080/addBoard', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ board_id: roomID, items: convertItemsToJSON(items, colorArr) })
+      body: JSON.stringify({ board_id: roomID, items: convertItemsToJSON(items, colorArr), gameInfo: init_game_info })
     })
   }
 

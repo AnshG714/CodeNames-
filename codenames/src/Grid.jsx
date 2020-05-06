@@ -5,7 +5,6 @@ import ItemCell from './Cell'
 
 const redCount = 9
 const blueCount = 8
-const grayCount = 7
 
 const Grid = ({ spyMaster, callback, id }) => {
   const [redRemaining, setRedRemaining] = useState(redCount)
@@ -17,65 +16,113 @@ const Grid = ({ spyMaster, callback, id }) => {
   const getBoardData = (id) => {
     fetch(`http://localhost:8080/getItems?board_id=${id}`)
       .then(response => response.json())
-      .then(it => setItems(it))
+      .then(it => {
+        setTurn(it.gameInfo.turn)
+        setRedRemaining(it.gameInfo.red)
+        setBlueRemaining(it.gameInfo.blue)
+        gameOver(it.gameInfo.win)
+        setItems(it.items)
+      })
       .catch(err => console.log(err))
   }
 
-  const updateBoardData = async (board_id, itemName, color, index) => {
+  const updateBoardData = async (board_id, itemName, color, index, gameInfo) => {
     await fetch('http://localhost:8080/updateBoard', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ board_id: board_id, itemName: itemName, color: color, index: index })
+      body: JSON.stringify({ board_id: board_id, itemName: itemName, color: color, index: index, gameInfo: gameInfo })
     })
-
-    console.log('updated')
   }
 
-  const changeHandler = (color, itemName) => {
-    updateBoardData(id, itemName, color, items[itemName].index)
+  const changeHandler = async (color, itemName) => {
+    const gameInfo = await colorHandler(color);
+    updateBoardData(id, itemName, color, items[itemName].index, gameInfo)
+  }
 
-    if (color === 'red') {
-      setRedRemaining(redRemaining - 1)
-      if ('blue' === whoseTurn) {
-        setTurn('red')
-      }
-      if (redRemaining - 1 === 0) {
-        setTurn('red')
-        gameOver(true)
+  const colorHandler = c => {
+    let gameInfo;
+    if (c === 'red') {
+      if ('blue' === whoseTurn || ('red' === whoseTurn && !(redRemaining - 1 === 0))) {
+        gameInfo = {
+          turn: 'red',
+          red: redRemaining - 1,
+          blue: blueRemaining,
+          win: win
+        }
+      } else {
+        gameInfo = {
+          turn: 'red',
+          red: redRemaining - 1,
+          blue: blueRemaining,
+          win: true
+        }
         callback('red')
       }
-    } else if (color === 'lightblue') {
-      setBlueRemaining(blueRemaining - 1)
-      if ('red' === whoseTurn) {
-        setTurn('blue')
-      }
-      if (blueRemaining - 1 === 0) {
-        setTurn('blue')
-        gameOver(true)
+
+    } else if (c === 'lightblue') {
+      if ('red' === whoseTurn || ('blue' === whoseTurn && !(blueRemaining - 1 === 0))) {
+        gameInfo = {
+          turn: 'blue',
+          red: redRemaining,
+          blue: blueRemaining - 1,
+          win: win
+        }
+      } else {
+        gameInfo = {
+          turn: 'blue',
+          red: redRemaining,
+          blue: blueRemaining - 1,
+          win: true
+        }
         callback('blue')
       }
-    } else if (color === '#e6d5a8') {
-      whoseTurn === 'red' ? setTurn('blue') : setTurn('red')
+    } else if (c === '#e6d5a8') {
+      whoseTurn === 'red'
+        ? (gameInfo = {
+          turn: 'blue',
+          red: redRemaining,
+          blue: blueRemaining,
+          win: win
+        })
+        : (gameInfo = {
+          turn: 'red',
+          red: redRemaining,
+          blue: blueRemaining,
+          win: win
+        })
     } else {
-      whoseTurn === 'red' ? setTurn('blue') : setTurn('red')
-      gameOver(true)
+      whoseTurn === 'red'
+        ?
+        gameInfo = {
+          turn: 'blue',
+          red: redRemaining,
+          blue: blueRemaining,
+          win: true
+        }
+        :
+        gameInfo = {
+          turn: 'red',
+          red: redRemaining,
+          blue: blueRemaining,
+          win: true
+        }
+
       callback(whoseTurn === 'red' ? 'blue' : 'red')
     }
+    return gameInfo
   }
 
   const passTurn = () => {
     if (!win) {
-      if (whoseTurn === 'red') {
-        setTurn('blue')
-      } else {
-        setTurn('red')
-      }
+      whoseTurn === 'red' ? setTurn('blue') : setTurn('red')
     }
   }
 
-  useEffect(() => getBoardData(id), [items])
+  useEffect(() => {
+    getBoardData(id)
+  }, [items])
 
   return (
     <div>
@@ -92,7 +139,7 @@ const Grid = ({ spyMaster, callback, id }) => {
             .sort((key1, key2) => {
               return items[key1].index - items[key2].index
             })
-            .map((itemName, index) =>
+            .map((itemName) =>
               <ItemCell spyMaster={spyMaster}
                 clickable={!win && !spyMaster}
                 itemName={itemName}
