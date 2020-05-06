@@ -22,7 +22,7 @@ export default ({ signOut, user, id }) => {
         winningColor && <Confetti recycle={false} colors={winningColor === 'red' ? redConf : blueConf} />
       }
 
-      <Grid spyMaster={spyState} callback={changeHandler} />
+      <Grid spyMaster={spyState} callback={changeHandler} id={id} />
 
       <Switch className="switch"
         checkedChildren={<img src='https://cdn1.iconfinder.com/data/icons/crimes-and-justice/100/14-512.png' height='15px' alt="spymaster" />}

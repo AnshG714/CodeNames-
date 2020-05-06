@@ -1,13 +1,11 @@
-import React, { useState } from 'react'
+import React from 'react'
 import './App.css'
 
-const ItemCell = ({ itemName, secretColor, spyMaster, callback, clickable }) => {
-
-  const [display, setDisplay] = useState(false)
+const ItemCell = ({ itemName, secretColor, spyMaster, callback, clickable, clicked }) => {
 
   const divStyle = {
-    backgroundColor: (display || spyMaster) ? secretColor : '#d1d1d1',
-    color: display ? 'white' : 'black',
+    backgroundColor: (clicked || spyMaster) ? secretColor : '#d1d1d1',
+    color: clicked ? 'white' : 'black',
     width: '150px',
     height: '120px'
   }
@@ -16,9 +14,8 @@ const ItemCell = ({ itemName, secretColor, spyMaster, callback, clickable }) => 
     <div className="item"
       style={divStyle}
       onClick={() => {
-        if (!display && clickable) {
-          callback(secretColor)
-          setDisplay(true)
+        if (!clicked && clickable) {
+          callback(secretColor, itemName)
         }
       }}>
       <p className="cell">{itemName}</p>

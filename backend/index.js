@@ -23,4 +23,10 @@ app.post('/addBoard', async (req, res) => {
   res.send(id);
 });
 
+app.post('/updateBoard', async (req, res) => {
+  const { board_id, itemName, color, index } = req.body;
+  await functions.updateBoard(board_id, itemName, color, index)
+  res.send({ success: true })
+})
+
 app.listen(port, () => console.log(`App listening on port ${port}!`));

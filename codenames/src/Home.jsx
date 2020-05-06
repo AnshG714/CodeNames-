@@ -48,7 +48,8 @@ function convertItemsToJSON(itemList, colorList) {
 
     const newitemData = {
       color: colorList[i],
-      checked: false
+      checked: false,
+      index: i
     }
 
     res[itemList[i]] = newitemData

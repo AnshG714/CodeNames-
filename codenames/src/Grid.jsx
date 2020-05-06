@@ -1,63 +1,41 @@
-/**
- * "items": {
- *  "dog": {
- *    checked: false,
- *    color: blue
- *  }
- * }
- */
 
-import React, { useState } from 'react'
-import { items } from './consts'
-
+import React, { useState, useEffect } from 'react'
 import ItemCell from './Cell'
-
-const duplicateArr = (count, element) => {
-  let arr = []
-  for (let i = 0; i < count; i++) {
-    arr.push(element)
-  }
-
-  return arr
-}
-
-const shuffle = (arr) => {
-  var ctr = arr.length, temp, index;
-
-  // While there are elements in the array
-  while (ctr > 0) {
-    // Pick a random index
-    index = Math.floor(Math.random() * ctr);
-    // Decrease ctr by 1
-    ctr--;
-    // And swap the last element with it
-    temp = arr[ctr];
-    arr[ctr] = arr[index];
-    arr[index] = temp;
-  }
-  return arr;
-}
+//import { streamBoardData } from '../../backend/firebase-functions'
 
 const redCount = 9
 const blueCount = 8
 const grayCount = 7
 
-let redArr = duplicateArr(redCount, 'red')
-let blueArr = duplicateArr(blueCount, 'lightblue')
-let grayArr = duplicateArr(grayCount, '#e6d5a8')
-let deathArr = ['#858585']
-let colorArr = redArr.concat(blueArr, grayArr, deathArr)
-
-shuffle(colorArr)
-shuffle(items)
-
-const Grid = ({ spyMaster, callback }) => {
+const Grid = ({ spyMaster, callback, id }) => {
   const [redRemaining, setRedRemaining] = useState(redCount)
   const [blueRemaining, setBlueRemaining] = useState(blueCount)
+  const [items, setItems] = useState({})
   const [whoseTurn, setTurn] = useState('red')
   const [win, gameOver] = useState(false)
 
-  const changeHandler = (color) => {
+  const getBoardData = (id) => {
+    fetch(`http://localhost:8080/getItems?board_id=${id}`)
+      .then(response => response.json())
+      .then(it => setItems(it))
+      .catch(err => console.log(err))
+  }
+
+  const updateBoardData = async (board_id, itemName, color, index) => {
+    await fetch('http://localhost:8080/updateBoard', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ board_id: board_id, itemName: itemName, color: color, index: index })
+    })
+
+    console.log('updated')
+  }
+
+  const changeHandler = (color, itemName) => {
+    updateBoardData(id, itemName, color, items[itemName].index)
+
     if (color === 'red') {
       setRedRemaining(redRemaining - 1)
       if ('blue' === whoseTurn) {
@@ -97,6 +75,8 @@ const Grid = ({ spyMaster, callback }) => {
     }
   }
 
+  useEffect(() => getBoardData(id), [items])
+
   return (
     <div>
       <p>{win
@@ -107,13 +87,19 @@ const Grid = ({ spyMaster, callback }) => {
         <br></br>
         <button className="passButton" onClick={passTurn}>Pass Turn</button></p>
       <div className="grid">
-        {items.map((itemName, index) =>
-          <ItemCell spyMaster={spyMaster}
-            clickable={!win && !spyMaster}
-            itemName={itemName}
-            secretColor={colorArr[index]}
-            key={itemName}
-            callback={changeHandler} />)}
+        {
+          Object.keys(items)
+            .sort((key1, key2) => {
+              return items[key1].index - items[key2].index
+            })
+            .map((itemName, index) =>
+              <ItemCell spyMaster={spyMaster}
+                clickable={!win && !spyMaster}
+                itemName={itemName}
+                secretColor={items[itemName].color}
+                clicked={items[itemName].checked}
+                key={itemName}
+                callback={changeHandler} />)}
       </div>
     </div >
   )
