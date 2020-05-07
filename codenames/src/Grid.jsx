@@ -9,18 +9,18 @@ const Grid = ({ spyMaster, callback, id }) => {
   const [whoseTurn, setTurn] = useState("red");
   const [win, gameOver] = useState(false);
 
-  const getBoardData = (id) => {
-    fetch(`http://localhost:8080/getItems?board_id=${id}`)
-      .then((response) => response.json())
-      .then((it) => {
-        setTurn(it.gameInfo.turn);
-        setRedRemaining(it.gameInfo.red);
-        setBlueRemaining(it.gameInfo.blue);
-        gameOver(it.gameInfo.win);
-        setItems(it.items);
-      })
-      .catch((err) => console.log(err));
-  };
+  // const getBoardData = (id) => {
+  //   fetch(`http://localhost:8080/getItems?board_id=${id}`)
+  //     .then((response) => response.json())
+  //     .then((it) => {
+  //       setTurn(it.gameInfo.turn);
+  //       setRedRemaining(it.gameInfo.red);
+  //       setBlueRemaining(it.gameInfo.blue);
+  //       gameOver(it.gameInfo.win);
+  //       setItems(it.items);
+  //     })
+  //     .catch((err) => console.log(err));
+  // };
 
   const updateBoardData = async (
     board_id,
@@ -151,18 +151,17 @@ const Grid = ({ spyMaster, callback, id }) => {
     }
   };
 
-  // useEffect(() => {
-  //   getBoardData(id)
-  //   console.log('effect')
-  // }, [])
-
   useEffect(() => {
     async function stream() {
       const unsubscribe = await streamBoardData(id, {
         next: (querySnapshot) => {
-          const data = querySnapshot.data().items;
-          setItems(data);
-          console.log("effect");
+          const data = querySnapshot.data();
+          if (data === undefined) return
+          setItems(data.items);
+          setBlueRemaining(data.gameInfo.blue)
+          setRedRemaining(data.gameInfo.red)
+          setTurn(data.gameInfo.turn)
+          gameOver(data.gameInfo.win)
         },
         error: (err) => console.log(err),
       });
@@ -171,7 +170,7 @@ const Grid = ({ spyMaster, callback, id }) => {
     }
 
     stream();
-  }, [items, setItems]);
+  }, []);
 
   return (
     <div>
