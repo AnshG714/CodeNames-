@@ -1,49 +1,46 @@
-const db = require('./firebase-config')
+const db = require("./firebase-config");
 
-const itemsCollection = db.collection('game-rooms');
+const itemsCollection = db.collection("game-rooms");
 
 const getItems = async (boardID) => {
   const items = await itemsCollection.doc(boardID).get();
-  return items.data()
-}
+  return items.data();
+};
 
 const addBoard = async (board_id, items, gameInfo) => {
   try {
-    await itemsCollection.doc(board_id).set({ items: items, gameInfo: gameInfo });
-    return board_id
+    await itemsCollection
+      .doc(board_id)
+      .set({ items: items, gameInfo: gameInfo });
+    return board_id;
   } catch (err) {
-    throw new Error(err.message)
+    throw new Error(err.message);
   }
-}
+};
 
 const updateBoard = async (board_id, itemName, color, index, gameInfo) => {
   try {
     const data = {
       checked: true,
       color: color,
-      index: index
-    }
+      index: index,
+    };
 
-    const key = "items." + itemName
+    const key = "items." + itemName;
 
-    const wrappedData = {}
-    wrappedData[key] = data
+    const wrappedData = {};
+    wrappedData[key] = data;
     if (itemName) {
-      await itemsCollection.doc(board_id).update(wrappedData)
+      await itemsCollection.doc(board_id).update(wrappedData);
     }
-    await itemsCollection.doc(board_id).update({ "gameInfo": gameInfo })
+    await itemsCollection.doc(board_id).update({ gameInfo: gameInfo });
   } catch (err) {
-    throw new Error(err.message)
+    throw new Error(err.message);
   }
-}
-
-const streamBoardData = async (boardID, observer) => {
-  return itemsCollection.doc(boardID).onSnapshot(observer)
-}
+};
 
 module.exports = {
   getItems,
   addBoard,
-  streamBoardData,
-  updateBoard
-}
+  updateBoard,
+};
