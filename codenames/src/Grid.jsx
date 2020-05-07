@@ -38,7 +38,11 @@ const Grid = ({ spyMaster, callback, id }) => {
 
   const changeHandler = async (color, itemName) => {
     const gameInfo = await colorHandler(color);
-    updateBoardData(id, itemName, color, items[itemName].index, gameInfo)
+    if (itemName === 'pass') {
+      updateBoardData(id, undefined, undefined, undefined, gameInfo)
+    } else {
+      updateBoardData(id, itemName, color, items[itemName].index, gameInfo)
+    }
   }
 
   const colorHandler = c => {
@@ -61,6 +65,22 @@ const Grid = ({ spyMaster, callback, id }) => {
         callback('red')
       }
 
+    } else if (c === 'pass'){
+      if ('red' === whoseTurn){
+        gameInfo = {
+          turn: 'blue',
+          red: redRemaining,
+          blue: blueRemaining,
+          win: win
+        }
+      } else {
+        gameInfo = {
+          turn: 'red',
+          red: redRemaining,
+          blue: blueRemaining,
+          win: win
+        }
+      }
     } else if (c === 'lightblue') {
       if ('red' === whoseTurn || ('blue' === whoseTurn && !(blueRemaining - 1 === 0))) {
         gameInfo = {
@@ -116,7 +136,7 @@ const Grid = ({ spyMaster, callback, id }) => {
 
   const passTurn = () => {
     if (!win) {
-      whoseTurn === 'red' ? setTurn('blue') : setTurn('red')
+      changeHandler('pass', 'pass')
     }
   }
 
