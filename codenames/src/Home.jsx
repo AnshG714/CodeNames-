@@ -42,6 +42,17 @@ let colorArr = redArr.concat(blueArr, grayArr, deathArr)
 shuffle(colorArr)
 shuffle(items)
 
+/** Splits and appends custom items to the default list, cuts that list down to 25 then shuffles */
+function customItems() {
+  let response = document.getElementById("custom").value;
+  if (response.length === 0) return [...items]
+  let split = response.split(" ");
+  let combined = split.concat(items);
+  combined.length = 25;
+  shuffle(combined);
+  return combined;
+}
+
 function convertItemsToJSON(itemList, colorList) {
   let res = {}
   for (let i = 0; i < itemList.length; i++) {
@@ -62,8 +73,7 @@ export default () => {
 
   const [roomText, setRoomText] = useState("")
 
-  const addToFirebase = async (roomID) => {
-
+  const addToFirebase = async (roomID, custom) => {
     const init_game_info = {
       turn: "red",
       red: 9,
@@ -75,7 +85,7 @@ export default () => {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ board_id: roomID, items: convertItemsToJSON(items, colorArr), gameInfo: init_game_info })
+      body: JSON.stringify({ board_id: roomID, items: convertItemsToJSON(custom, colorArr), gameInfo: init_game_info })
     })
   }
 
@@ -85,10 +95,10 @@ export default () => {
       <form>
         <input className="room" type="text" id="roomID" placeholder="Enter your room name"
           onChange={(e) => setRoomText(e.target.value)} /> <br />
-        <textarea className="custom" placeholder="Enter custom words" rows={5} columns={80} /> <br />
+        <textarea className = "custom" id="custom" placeholder="Enter custom words (separated by a single space)" rows={5} columns={80} /> <br />
 
         <Link to={roomText}><button className="button" type="button"
-          onClick={(_) => addToFirebase(roomText)}> Submit </button>
+          onClick={(_) => addToFirebase(roomText, customItems())}> Submit </button>
         </Link>
       </form>
     </div >
