@@ -161,7 +161,7 @@ const Grid = ({ spyMaster, callback, id }) => {
       const unsubscribe = await streamBoardData(id, {
         next: (querySnapshot) => {
           const data = querySnapshot.data().items;
-          setItems(items);
+          setItems(data);
           console.log("effect");
         },
         error: (err) => console.log(err),
