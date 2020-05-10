@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const functions = require('./firebase-functions')
 const cors = require('cors');
+const path = require('path')
 
 const app = express();
 const port = 8080;
