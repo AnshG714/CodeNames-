@@ -7,7 +7,8 @@ const app = express();
 const port = 8080;
 
 app.use(bodyParser.json());
-app.use(cors())
+app.use(cors());
+app.use(express.static(path.join(__dirname, 'build')));
 
 
 app.get('/getItems', async (req, res) => {
@@ -29,6 +30,10 @@ app.post('/updateBoard', async (req, res) => {
   await functions.updateBoard(board_id, itemName, color, index, gameInfo)
   res.send({ success: true })
 })
+
+app.get('/*', function (req, res) {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
 
 
 app.listen(port, () => console.log(`App listening on port ${port}!`));
