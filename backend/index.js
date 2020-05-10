@@ -9,6 +9,7 @@ const port = 8080;
 app.use(bodyParser.json());
 app.use(cors())
 
+
 app.get('/getItems', async (req, res) => {
   const result = await functions.getItems(req.query.board_id)
   res.send(result)
@@ -28,5 +29,6 @@ app.post('/updateBoard', async (req, res) => {
   await functions.updateBoard(board_id, itemName, color, index, gameInfo)
   res.send({ success: true })
 })
+
 
 app.listen(port, () => console.log(`App listening on port ${port}!`));

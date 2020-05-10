@@ -9,19 +9,6 @@ const Grid = ({ spyMaster, callback, id }) => {
   const [whoseTurn, setTurn] = useState("red");
   const [win, gameOver] = useState(false);
 
-  // const getBoardData = (id) => {
-  //   fetch(`http://localhost:8080/getItems?board_id=${id}`)
-  //     .then((response) => response.json())
-  //     .then((it) => {
-  //       setTurn(it.gameInfo.turn);
-  //       setRedRemaining(it.gameInfo.red);
-  //       setBlueRemaining(it.gameInfo.blue);
-  //       gameOver(it.gameInfo.win);
-  //       setItems(it.items);
-  //     })
-  //     .catch((err) => console.log(err));
-  // };
-
   const updateBoardData = async (
     board_id,
     itemName,
@@ -29,7 +16,7 @@ const Grid = ({ spyMaster, callback, id }) => {
     index,
     gameInfo
   ) => {
-    await fetch("http://localhost:8080/updateBoard", {
+    await fetch("https://git.heroku.com/sheldonites.git/updateBoard", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

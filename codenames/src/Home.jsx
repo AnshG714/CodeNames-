@@ -80,7 +80,7 @@ export default () => {
       blue: 8,
       win: false
     }
-    await fetch('http://localhost:8080/addBoard', {
+    await fetch('https://git.heroku.com/sheldonites.git/addBoard', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -97,7 +97,7 @@ export default () => {
         <input className="room" type="text" id="roomID" placeholder="Enter your room name"
           onChange={(e) => setRoomText(e.target.value)} /> <br />
 
-        <textarea className = "custom" id="custom" placeholder="Enter custom words (separated by a single space)" rows={5} columns={80} /> <br />
+        <textarea className="custom" id="custom" placeholder="Enter custom words (separated by a single space)" rows={5} columns={80} /> <br />
 
         <Link to={roomText}><button className="button" type="button"
           onClick={(_) => addToFirebase(roomText, customItems())}> Submit </button>
