@@ -91,10 +91,12 @@ export default () => {
 
   return (
     <div>
-      <h1>Create a room!</h1>
+      <h1>Codenames+</h1>
+      <h2>Create a room!</h2>
       <form>
         <input className="room" type="text" id="roomID" placeholder="Enter your room name"
           onChange={(e) => setRoomText(e.target.value)} /> <br />
+
         <textarea className = "custom" id="custom" placeholder="Enter custom words (separated by a single space)" rows={5} columns={80} /> <br />
 
         <Link to={roomText}><button className="button" type="button"

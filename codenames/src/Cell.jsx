@@ -1,26 +1,32 @@
-import React from 'react'
-import './App.css'
+import React from "react";
+import "./App.css";
 
-const ItemCell = ({ itemName, secretColor, spyMaster, callback, clickable, clicked }) => {
-
+const ItemCell = ({
+  itemName,
+  secretColor,
+  spyMaster,
+  callback,
+  clickable,
+  clicked,
+}) => {
   const divStyle = {
-    backgroundColor: (clicked || spyMaster) ? secretColor : '#d1d1d1',
-    color: clicked ? 'white' : 'black',
-    width: '150px',
-    height: '120px'
-  }
+    backgroundColor: clicked || spyMaster ? secretColor : "#d1d1d1",
+    color: clicked ? "white" : "black",
+  };
 
   return (
-    <div className="item"
+    <div
+      className="item"
       style={divStyle}
       onClick={() => {
         if (!clicked && clickable) {
-          callback(secretColor, itemName)
+          callback(secretColor, itemName);
         }
-      }}>
+      }}
+    >
       <p className="cell">{itemName}</p>
     </div>
-  )
-}
+  );
+};
 
-export default ItemCell
+export default ItemCell;
