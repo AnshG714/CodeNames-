@@ -2,14 +2,21 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const functions = require('./firebase-functions')
 const cors = require('cors');
-const path = require('path')
-
+const path = require('path');
 const app = express();
 const port = 8080;
 
 app.use(bodyParser.json());
 app.use(cors());
 app.use(express.static(path.join(__dirname, 'build')));
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", '*');
+  res.header("Access-Control-Allow-Credentials", true);
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+  res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
+  next();
+});
+
 
 
 app.get('/getItems', async (req, res) => {
