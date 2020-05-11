@@ -4,11 +4,11 @@ const functions = require('./firebase-functions')
 const cors = require('cors');
 const path = require('path');
 const app = express();
-const port = 8080;
+const port = process.env.PORT || 8080;
 
 app.use(bodyParser.json());
 app.use(cors());
-app.use(express.static(path.join(__dirname, 'build')));
+// app.use(express.static(path.join(__dirname, 'build')));
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", '*');
   res.header("Access-Control-Allow-Credentials", true);
@@ -39,9 +39,9 @@ app.post('/updateBoard', async (req, res) => {
   res.send({ success: true })
 })
 
-app.get('/*', function (req, res) {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
-});
+// app.get('/*', function (req, res) {
+//   res.sendFile(path.join(__dirname, 'build', 'index.html'));
+// });
 
 
 app.listen(port, () => console.log(`App listening on port ${port}!`));

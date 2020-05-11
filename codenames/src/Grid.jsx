@@ -16,7 +16,7 @@ const Grid = ({ spyMaster, callback, id }) => {
     index,
     gameInfo
   ) => {
-    await fetch("https://git.heroku.com/sheldonites.git/updateBoard", {
+    var res = await fetch("/updateBoard", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -29,6 +29,7 @@ const Grid = ({ spyMaster, callback, id }) => {
         gameInfo: gameInfo,
       }),
     });
+    console.log(res);
   };
 
   const changeHandler = async (color, itemName) => {
