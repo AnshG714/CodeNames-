@@ -16,7 +16,7 @@ const Grid = ({ spyMaster, callback, id }) => {
     index,
     gameInfo
   ) => {
-    var res = await fetch("/updateBoard", {
+      await fetch("https://sheldonames.herokuapp.com/updateBoard", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -29,7 +29,6 @@ const Grid = ({ spyMaster, callback, id }) => {
         gameInfo: gameInfo,
       }),
     });
-    console.log(res);
   };
 
   const changeHandler = async (color, itemName) => {
@@ -150,6 +149,7 @@ const Grid = ({ spyMaster, callback, id }) => {
           setRedRemaining(data.gameInfo.red)
           setTurn(data.gameInfo.turn)
           gameOver(data.gameInfo.win)
+          if (data.gameInfo.win) callback(data.gameInfo.turn);
         },
         error: (err) => console.log(err),
       });

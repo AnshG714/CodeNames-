@@ -80,7 +80,7 @@ export default () => {
       blue: 8,
       win: false
     }
-    await fetch('/addBoard', {
+    await fetch('https://sheldonames.herokuapp.com/addBoard', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
