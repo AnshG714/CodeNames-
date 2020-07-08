@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ItemCell from "./Cell";
 import streamBoardData from "./stream-controller";
+import { trackPromise } from "react-promise-tracker";
 
 const Grid = ({ spyMaster, callback, id }) => {
   const [redRemaining, setRedRemaining] = useState(9);
@@ -140,7 +141,7 @@ const Grid = ({ spyMaster, callback, id }) => {
 
   useEffect(() => {
     async function stream() {
-      const unsubscribe = await streamBoardData(id, {
+      const unsubscribe = await trackPromise(streamBoardData(id, {
         next: (querySnapshot) => {
           const data = querySnapshot.data();
           if (data === undefined) return
@@ -152,7 +153,7 @@ const Grid = ({ spyMaster, callback, id }) => {
           if (data.gameInfo.win) callback(data.gameInfo.turn);
         },
         error: (err) => console.log(err),
-      });
+      }));
 
       return unsubscribe;
     }
