@@ -5,6 +5,8 @@ import Grid from "./Grid";
 import { Layout, Switch } from "antd";
 import Confetti from "react-confetti";
 import { blueConf, redConf } from "./consts.js";
+import { usePromiseTracker } from "react-promise-tracker";
+import Loader from "react-loader-spinner";
 const { Content, Footer } = Layout;
 
 export default ({ signOut, user, id }) => {
@@ -15,6 +17,24 @@ export default ({ signOut, user, id }) => {
     if (color === "red") setWinningColor("red");
     else setWinningColor("blue");
   };
+
+  const LoadingIndicator = () => {
+    const { promiseInProgress } = usePromiseTracker();
+    return(
+        promiseInProgress &&
+      <div 
+        style={{
+          width: "100%",
+          height: "100",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center"
+        }}
+        >
+          <Loader type="ThreeDots" color="blue" height="100" width="100" />
+        </div>
+    );
+  }
 
   return (
     <div>
@@ -28,6 +48,7 @@ export default ({ signOut, user, id }) => {
           />
         )}
         <Grid spyMaster={spyState} callback={changeHandler} id={id} />
+        <LoadingIndicator/>
         <Switch
           className="switch"
           checkedChildren={
