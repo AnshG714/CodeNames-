@@ -13,7 +13,7 @@ function App(props) {
   return (
     <div className="App">
       {user ? (
-        <BrowserRouter forceRefresh={true} >
+        <BrowserRouter>
           <Switch>
             <Route path="/" component={Home} exact />
             <Route

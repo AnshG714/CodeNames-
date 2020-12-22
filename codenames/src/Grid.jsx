@@ -16,7 +16,7 @@ const Grid = ({ spyMaster, callback, id }) => {
     index,
     gameInfo
   ) => {
-    await fetch("https://git.heroku.com/sheldonites.git/updateBoard", {
+      await fetch("https://sheldonames.herokuapp.com/updateBoard", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -149,6 +149,7 @@ const Grid = ({ spyMaster, callback, id }) => {
           setRedRemaining(data.gameInfo.red)
           setTurn(data.gameInfo.turn)
           gameOver(data.gameInfo.win)
+          if (data.gameInfo.win) callback(data.gameInfo.turn);
         },
         error: (err) => console.log(err),
       });
